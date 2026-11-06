@@ -1,6 +1,10 @@
 package com.application.eurder2.dtos.request;
 
-public record CreateEurderRequest(
+import jakarta.validation.constraints.NotEmpty;
 
+import java.util.List;
+
+public record CreateEurderRequest(
+        @NotEmpty List<CreateItemGroupRequest> itemGroupRequests
 ) {
 }

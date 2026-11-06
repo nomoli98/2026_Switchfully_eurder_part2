@@ -26,6 +26,11 @@ public class Eurder {
     public Eurder() {
     }
 
+    public Eurder(List<ItemGroup> itemGroups, User user) {
+        this.itemGroups = itemGroups;
+        this.user = user;
+    }
+
     public UUID getId() {
         return id;
     }
