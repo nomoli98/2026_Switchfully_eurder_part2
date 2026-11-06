@@ -52,8 +52,8 @@ class EurderPersistenceTest {
 
         Eurder eurder = new Eurder();
         eurder.setUser(user);
-        eurder.addItemGroup(new ItemGroup(pen, 3, LocalDate.now()));
-        eurder.addItemGroup(new ItemGroup(book, 1, LocalDate.now()));
+        eurder.addItemGroup(new ItemGroup(pen, 3));
+        eurder.addItemGroup(new ItemGroup(book, 1));
         em.persist(eurder); // only the eurder: cascade must save the groups
         flushAndClear(em);
 
@@ -65,7 +65,7 @@ class EurderPersistenceTest {
     @DisplayName("Given an order, when an item group is added, then both sides point to each other")
     void addItemGroupSetsBothSides() {
         Eurder eurder = new Eurder();
-        ItemGroup group = new ItemGroup(newItem("Pen", 2.0, 10), 1, LocalDate.now());
+        ItemGroup group = new ItemGroup(newItem("Pen", 2.0, 10), 1);
 
         eurder.addItemGroup(group);
 
@@ -77,7 +77,7 @@ class EurderPersistenceTest {
     @DisplayName("Given an order, when adding to getItemGroups() directly, then an error is thrown")
     void itemGroupsListCannotBeChangedDirectly() {
         Eurder eurder = new Eurder();
-        ItemGroup group = new ItemGroup(newItem("Pen", 2.0, 10), 1, LocalDate.now());
+        ItemGroup group = new ItemGroup(newItem("Pen", 2.0, 10), 1);
 
         assertThatThrownBy(() -> eurder.getItemGroups().add(group))
                 .isInstanceOf(UnsupportedOperationException.class);
@@ -95,8 +95,8 @@ class EurderPersistenceTest {
 
         Eurder eurder = new Eurder();
         eurder.setUser(user);
-        eurder.addItemGroup(new ItemGroup(pen, 3, LocalDate.now()));  // 6.0
-        eurder.addItemGroup(new ItemGroup(book, 2, LocalDate.now())); // 20.0
+        eurder.addItemGroup(new ItemGroup(pen, 3));  // 6.0
+        eurder.addItemGroup(new ItemGroup(book, 2)); // 20.0
         em.persist(eurder);
         flushAndClear(em);
 

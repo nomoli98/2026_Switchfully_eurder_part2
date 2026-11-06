@@ -65,7 +65,7 @@ class ItemGroupPersistenceTest {
     @Test
     @DisplayName("Given 4 items at 2.5, when the group price is calculated, then it is 10")
     void calculatesGroupPrice() {
-        ItemGroup group = new ItemGroup(newItem("Pen", 2.5, 10), 4, LocalDate.now());
+        ItemGroup group = new ItemGroup(newItem("Pen", 2.5, 10), 4);
 
         assertThat(group.getGroupPrice()).isEqualTo(10.0);
     }
@@ -112,7 +112,7 @@ class ItemGroupPersistenceTest {
     void rejectsGroupWithoutEurder() {
         Item pen = newItem("Pen", 2.0, 10);
         em.persist(pen);
-        ItemGroup group = new ItemGroup(pen, 1, LocalDate.now());
+        ItemGroup group = new ItemGroup(pen, 1);
 
         assertThatThrownBy(() -> {
             em.persist(group);

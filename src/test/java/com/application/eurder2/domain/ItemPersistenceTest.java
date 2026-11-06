@@ -41,7 +41,7 @@ class ItemPersistenceTest {
     void reducedStockIsSaved() {
         Item item = newItem("Pen", 1.50, 10);
         em.persist(item);
-        item.reduceStock(3);
+        item.decreaseStock(3);
         flushAndClear(em);
 
         assertThat(em.find(Item.class, item.getId()).getStock()).isEqualTo(7);

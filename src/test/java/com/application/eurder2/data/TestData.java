@@ -56,7 +56,9 @@ public final class TestData {
         }
         Eurder eurder = new Eurder();
         eurder.setUser(user);
-        eurder.addItemGroup(new ItemGroup(item, amount, shippingDate));
+        ItemGroup group = new ItemGroup(item, amount);
+        group.setShippingDate(shippingDate);
+        eurder.addItemGroup(group);
         em.persist(eurder);
         return eurder;
     }
