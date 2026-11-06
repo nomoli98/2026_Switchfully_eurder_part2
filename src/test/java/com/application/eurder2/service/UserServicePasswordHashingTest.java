@@ -1,7 +1,7 @@
 package com.application.eurder2.service;
 
 import com.application.eurder2.domain.User;
-import com.application.eurder2.dtos.request.AddressRequest;
+import com.application.eurder2.dtos.request.CreateAddressRequest;
 import com.application.eurder2.dtos.request.CreateUserRequest;
 import com.application.eurder2.dtos.request.RegisterUserRequest;
 import com.application.eurder2.enums.Role;
@@ -35,7 +35,7 @@ class UserServicePasswordHashingTest {
     @InjectMocks
     private UserService userService;
 
-    private final AddressRequest address = new AddressRequest("Main Street", "12A", "Brussels", "1000", "Belgium");
+    private final CreateAddressRequest address = new CreateAddressRequest("Main Street", "12A", "Brussels", "1000", "Belgium");
 
     private RegisterUserRequest registerRequest() {
         return new RegisterUserRequest("Nora", "Petry", "nora@test.com", RAW, "+32470000001", address);

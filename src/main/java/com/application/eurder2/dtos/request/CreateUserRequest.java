@@ -14,7 +14,7 @@ public record CreateUserRequest (
     @NotBlank @Email String email,
     @NotBlank @StrongPassword String password,
     @PhoneNumber String phoneNumber,
-    @NotNull @Valid AddressRequest address,
+    @NotNull @Valid CreateAddressRequest address,
     @NotNull Role role
     ){
 }

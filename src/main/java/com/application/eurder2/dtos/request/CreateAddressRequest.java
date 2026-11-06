@@ -2,7 +2,7 @@ package com.application.eurder2.dtos.request;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record AddressRequest(
+public record CreateAddressRequest(
         @NotBlank String street,
         @NotBlank String number,
         @NotBlank String city,
