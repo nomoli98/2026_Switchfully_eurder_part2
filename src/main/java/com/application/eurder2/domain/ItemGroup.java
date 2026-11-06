@@ -8,6 +8,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "item_groups")
 public class ItemGroup {
+
+    private static final int DAYS_TO_SHIP_WHEN_IN_STOCK = 1;
+    private static final int DAYS_TO_SHIP_WHEN_NOT_IN_STOCK = 7;
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "item_group_id", nullable = false)
@@ -33,11 +37,15 @@ public class ItemGroup {
     public ItemGroup() {
     }
 
-    public ItemGroup(Item item, int amount, LocalDate shippingDate) {
+    public ItemGroup(Item item, int amount) {
         this.item = item;
         this.amount = amount;
         this.priceAtOrder = item.getPrice();
-        this.shippingDate = shippingDate;
+        int daysToShip = item.hasSufficientStockFor(amount) ?
+                         DAYS_TO_SHIP_WHEN_IN_STOCK :
+                         DAYS_TO_SHIP_WHEN_NOT_IN_STOCK;
+        this.shippingDate = LocalDate.now().plusDays(daysToShip);
+        item.decreaseStock(amount);
     }
 
     public UUID getId() {

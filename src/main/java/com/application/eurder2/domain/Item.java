@@ -75,8 +75,8 @@ public class Item {
         return stock >= amount;
     }
 
-    public void reduceStock(int amount){
-        stock -= amount;
+    public void decreaseStock(int amount) {
+        stock = Math.max(0, stock - amount);
     }
 
     @Override
