@@ -1,7 +1,11 @@
 package com.application.eurder2.repository;
 
+import com.application.eurder2.domain.Eurder;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
+
 @Repository
-public class EurderRepository {
+public interface EurderRepository extends JpaRepository<Eurder, UUID> {
 }

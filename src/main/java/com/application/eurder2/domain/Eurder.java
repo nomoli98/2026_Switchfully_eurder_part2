@@ -3,6 +3,7 @@ package com.application.eurder2.domain;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import java.util.UUID;
@@ -30,7 +31,7 @@ public class Eurder {
     }
 
     public List<ItemGroup> getItemGroups() {
-        return itemGroups;
+        return Collections.unmodifiableList(itemGroups);
     }
 
     public void addItemGroup(ItemGroup group) {

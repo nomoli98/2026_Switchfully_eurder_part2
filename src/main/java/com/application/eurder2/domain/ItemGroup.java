@@ -48,6 +48,10 @@ public class ItemGroup {
         return item;
     }
 
+    public String getItemName() {
+        return item.getName();
+    }
+
     public void setItem(Item item) {
         this.item = item;
     }
