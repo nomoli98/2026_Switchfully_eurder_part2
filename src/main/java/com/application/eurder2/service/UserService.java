@@ -39,8 +39,11 @@ public class UserService {
         user.setRole(role);
         user.setEmail(normalizeEmail(user.getEmail()));
         if (repository.existsByEmail(user.getEmail())) throw ConflictException.emailAlreadyInUse();
-        if (repository.existsByPhoneNumber(user.getPhoneNumber())) throw ConflictException.phoneNumberAlreadyInUse();
+        if (repository.existsByPhoneNumber(user.getPhoneNumber()))
+            throw ConflictException.phoneNumberAlreadyInUse();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return UserMapper.toResponse(repository.save(user));
     }
+
+    private boolean existsByEmail(String email) {return repository.existsByEmail(email);}
 }

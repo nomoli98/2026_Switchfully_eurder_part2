@@ -1,7 +1,8 @@
 package com.application.eurder2.service;
 
+import com.application.eurder2.domain.ItemGroup;
 import com.application.eurder2.dtos.request.CreateItemGroupRequest;
-import com.application.eurder2.dtos.response.ItemGroupResponse;
+import com.application.eurder2.exception.ExistenceException;
 import com.application.eurder2.mapper.ItemGroupMapper;
 import com.application.eurder2.repository.ItemGroupRepository;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,10 @@ public class ItemGroupService {
         this.itemService = itemService;
     }
 
-    public ItemGroupResponse createItemGroup(CreateItemGroupRequest request) {
-        return ItemGroupMapper.toResponse(itemGroupRepository.save(ItemGroupMapper.toEntity(
-                itemService.getItemById(request.itemId()),
-                request.amount())));
+    public ItemGroup createItemGroup(CreateItemGroupRequest request) {
+        if (!itemService.existsById(request.itemId()))
+            throw ExistenceException.notInDatabase("item");
+        return ItemGroupMapper.toEntity(itemService.getItemById(request.itemId()),
+                                        request.amount());
     }
 }

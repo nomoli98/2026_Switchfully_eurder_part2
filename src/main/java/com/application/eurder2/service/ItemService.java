@@ -23,4 +23,6 @@ public class ItemService {
         return repository.getReferenceById(item);
     }
 
+    public boolean existsById(UUID item){return repository.existsById(item);}
+
 }
