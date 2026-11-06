@@ -1,8 +1,8 @@
 package com.application.eurder2.service;
 
+import com.application.eurder2.domain.Item;
 import com.application.eurder2.domain.ItemGroup;
 import com.application.eurder2.dtos.request.CreateItemGroupRequest;
-import com.application.eurder2.exception.ExistenceException;
 import com.application.eurder2.mapper.ItemGroupMapper;
 import com.application.eurder2.repository.ItemGroupRepository;
 import org.springframework.stereotype.Service;
@@ -19,9 +19,9 @@ public class ItemGroupService {
     }
 
     public ItemGroup createItemGroup(CreateItemGroupRequest request) {
-        if (!itemService.existsById(request.itemId()))
-            throw ExistenceException.notInDatabase("item");
-        return ItemGroupMapper.toEntity(itemService.getItemById(request.itemId()),
-                                        request.amount());
+        Item item = itemService.getItemById(request.itemId());
+        ItemGroup group = ItemGroupMapper.toEntity(item, request.amount());
+        item.decreaseStock(request.amount()); // after the shipping date is computed
+        return group;
     }
 }

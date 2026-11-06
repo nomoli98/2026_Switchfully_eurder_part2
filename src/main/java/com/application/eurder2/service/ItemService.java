@@ -3,6 +3,7 @@ package com.application.eurder2.service;
 import com.application.eurder2.domain.Item;
 import com.application.eurder2.dtos.request.CreateItemRequest;
 import com.application.eurder2.dtos.response.ItemResponse;
+import com.application.eurder2.exception.ExistenceException;
 import com.application.eurder2.mapper.ItemMapper;
 import com.application.eurder2.repository.ItemRepository;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,11 @@ public class ItemService {
         return ItemMapper.toResponse(repository.save(ItemMapper.toEntity(request)));
     }
 
-    public Item getItemById(UUID item){
-        return repository.getReferenceById(item);
+    public Item getItemById(UUID id) {
+        return repository.findById(id)
+                         .orElseThrow(() -> ExistenceException.notInDatabase("item"));
     }
 
-    public boolean existsById(UUID item){return repository.existsById(item);}
+
 
 }

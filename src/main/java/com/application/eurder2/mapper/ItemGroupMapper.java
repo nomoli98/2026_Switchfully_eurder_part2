@@ -14,9 +14,7 @@ public class ItemGroupMapper {
         return new ItemGroupResponse(itemGroup.getItem().getName(),
                                      itemGroup.getAmount(),
                                      itemGroup.getGroupPrice(),
-                                     itemGroup.getShippingDate(),
-                                     itemGroup.getEurder().getId());
+                                     itemGroup.getShippingDate());
     }
-
 
 }

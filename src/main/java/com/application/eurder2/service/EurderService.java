@@ -6,7 +6,7 @@ import com.application.eurder2.dtos.request.CreateEurderRequest;
 import com.application.eurder2.dtos.response.EurderResponse;
 import com.application.eurder2.mapper.EurderMapper;
 import com.application.eurder2.repository.EurderRepository;
-import com.application.eurder2.security.SecurityService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,17 +16,17 @@ public class EurderService {
     private final EurderRepository repository;
     private final ItemGroupService itemGroupService;
 
-    public EurderService(EurderRepository repository, ItemGroupService itemGroupService,
-                         UserService userService, SecurityService securityService) {
+    public EurderService(EurderRepository repository, ItemGroupService itemGroupService) {
         this.repository = repository;
         this.itemGroupService = itemGroupService;
     }
 
+    @Transactional
     public EurderResponse createEurder(CreateEurderRequest request, User user) {
-        List<ItemGroup> items = request.itemGroupRequests()
-                                       .stream()
-                                       .map(itemGroupService::createItemGroup)
-                                       .toList();
-        return EurderMapper.toResponse(repository.save(EurderMapper.toEntity(items, user)));
+        List<ItemGroup> groups = request.itemGroupRequests()
+                                        .stream()
+                                        .map(itemGroupService::createItemGroup)
+                                        .toList();
+        return EurderMapper.toResponse(repository.save(EurderMapper.toEntity(groups, user)));
     }
 }

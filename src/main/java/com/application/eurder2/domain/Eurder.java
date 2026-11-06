@@ -27,8 +27,8 @@ public class Eurder {
     }
 
     public Eurder(List<ItemGroup> itemGroups, User user) {
-        this.itemGroups = itemGroups;
         this.user = user;
+        itemGroups.forEach(this::addItemGroup);
     }
 
     public UUID getId() {

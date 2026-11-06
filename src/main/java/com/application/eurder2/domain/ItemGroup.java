@@ -41,11 +41,10 @@ public class ItemGroup {
         this.item = item;
         this.amount = amount;
         this.priceAtOrder = item.getPrice();
-        int daysToShip = item.hasSufficientStockFor(amount) ?
-                         DAYS_TO_SHIP_WHEN_IN_STOCK :
-                         DAYS_TO_SHIP_WHEN_NOT_IN_STOCK;
+        int daysToShip = item.hasSufficientStockFor(amount)
+                         ? DAYS_TO_SHIP_WHEN_IN_STOCK
+                         : DAYS_TO_SHIP_WHEN_NOT_IN_STOCK;
         this.shippingDate = LocalDate.now().plusDays(daysToShip);
-        item.decreaseStock(amount);
     }
 
     public UUID getId() {

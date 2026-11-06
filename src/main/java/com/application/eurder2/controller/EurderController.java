@@ -1,5 +1,6 @@
 package com.application.eurder2.controller;
 
+import com.application.eurder2.domain.User;
 import com.application.eurder2.dtos.request.CreateEurderRequest;
 import com.application.eurder2.dtos.response.EurderResponse;
 import com.application.eurder2.enums.Permission;
@@ -24,10 +25,10 @@ public class EurderController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public EurderResponse createEurder(@RequestHeader(value = HttpHeaders.AUTHORIZATION,
-                                                      required = false) String authorization,
-                                       @Valid @RequestBody CreateEurderRequest request){
-        securityService.validateAuthorization(authorization, Permission.CREATE_ORDER);
-        return eurderService.createEurder(request, securityService.authenticate(authorization));
+    public EurderResponse createEurder(
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorization,
+            @Valid @RequestBody CreateEurderRequest request) {
+        User user = securityService.validateAuthorization(authorization, Permission.CREATE_ORDER);
+        return eurderService.createEurder(request, user);
     }
 }

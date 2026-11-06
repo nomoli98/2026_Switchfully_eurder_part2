@@ -6,7 +6,6 @@ import java.util.UUID;
 public record ItemGroupResponse(String itemName,
                                 int amount,
                                 double groupPrice,
-                                LocalDate shippingDate,
-                                UUID eurderId) {
+                                LocalDate shippingDate) {
 
 }
