@@ -5,6 +5,8 @@ import com.application.eurder2.dtos.request.CreateUserRequest;
 import com.application.eurder2.dtos.request.RegisterUserRequest;
 import com.application.eurder2.dtos.response.UserResponse;
 
+import java.util.List;
+
 public class UserMapper {
     public static User toEntity(RegisterUserRequest request) {
         return new User(
@@ -35,5 +37,9 @@ public class UserMapper {
                 user.getPhoneNumber(),
                 AddressMapper.toResponse(user.getAddress()),
                 user.getRole());
+    }
+
+    public static List<UserResponse> toResponseList(List<User> userList) {
+        return userList.stream().map(UserMapper::toResponse).toList();
     }
 }

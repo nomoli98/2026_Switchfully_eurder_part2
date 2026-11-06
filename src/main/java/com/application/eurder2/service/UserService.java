@@ -6,12 +6,17 @@ import com.application.eurder2.dtos.request.RegisterUserRequest;
 import com.application.eurder2.dtos.response.UserResponse;
 import com.application.eurder2.enums.Role;
 import com.application.eurder2.exception.ConflictException;
+import com.application.eurder2.exception.ExistenceException;
 import com.application.eurder2.mapper.UserMapper;
 import com.application.eurder2.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -21,6 +26,19 @@ public class UserService {
     public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
+    }
+
+    public List<UserResponse> getUsers(Role role, Pageable pageable) {
+        Page<User> users = (role == null)
+                           ? repository.findAll(pageable)
+                           : repository.findAllByRole(role, pageable);
+        return users.map(UserMapper::toResponse).getContent();
+    }
+
+    public UserResponse getUserById(UUID uuid) {
+        return UserMapper.toResponse(repository.findById(uuid)
+                                               .orElseThrow(() -> ExistenceException.notInDatabase(
+                                                       "user")));
     }
 
     public UserResponse register(RegisterUserRequest request) {
@@ -44,6 +62,4 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return UserMapper.toResponse(repository.save(user));
     }
-
-    private boolean existsByEmail(String email) {return repository.existsByEmail(email);}
 }

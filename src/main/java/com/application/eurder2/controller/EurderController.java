@@ -6,6 +6,7 @@ import com.application.eurder2.dtos.response.EurderResponse;
 import com.application.eurder2.enums.Permission;
 import com.application.eurder2.security.SecurityService;
 import com.application.eurder2.service.EurderService;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,8 @@ public class EurderController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public EurderResponse createEurder(
-            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorization,
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false)
+            @Parameter(hidden = true) String authorization,
             @Valid @RequestBody CreateEurderRequest request) {
         User user = securityService.validateAuthorization(authorization, Permission.CREATE_ORDER);
         return eurderService.createEurder(request, user);

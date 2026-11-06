@@ -5,6 +5,7 @@ import com.application.eurder2.dtos.response.ItemResponse;
 import com.application.eurder2.enums.Permission;
 import com.application.eurder2.security.SecurityService;
 import com.application.eurder2.service.ItemService;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,8 @@ public class ItemController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ItemResponse createItem(@RequestHeader(value = HttpHeaders.AUTHORIZATION,
-                                                  required = false) String authorization,
+                                                  required = false) @Parameter(hidden = true)
+                                   String authorization,
                                    @Valid @RequestBody CreateItemRequest request) {
         securityService.validateAuthorization(authorization, Permission.CREATE_ITEM);
         return itemService.createItem(request);
