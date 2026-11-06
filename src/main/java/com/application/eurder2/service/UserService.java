@@ -11,6 +11,7 @@ import com.application.eurder2.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
 
 @Service
 public class UserService {
@@ -22,10 +23,6 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public static String normalizeEmail(String email) {
-        return email.toLowerCase();
-    }
-
     public UserResponse register(RegisterUserRequest request) {
         return createUser(UserMapper.toEntity(request), Role.CUSTOMER);
     }
@@ -34,9 +31,15 @@ public class UserService {
         return createUser(UserMapper.toEntity(request), request.role());
     }
 
+    public static String normalizeEmail(String email) {
+        return email == null ? null : email.trim().toLowerCase(Locale.ROOT);
+    }
+
     private UserResponse createUser(User user, Role role) {
         user.setRole(role);
-        if(repository.existsByEmail(user.getEmail())) throw ConflictException.emailAlreadyInUse();
+        user.setEmail(normalizeEmail(user.getEmail()));
+        if (repository.existsByEmail(user.getEmail())) throw ConflictException.emailAlreadyInUse();
+        if (repository.existsByPhoneNumber(user.getPhoneNumber())) throw ConflictException.phoneNumberAlreadyInUse();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return UserMapper.toResponse(repository.save(user));
     }

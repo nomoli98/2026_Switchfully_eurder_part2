@@ -1,10 +1,11 @@
-package com.application.eurder2.service;
+package com.application.eurder2.security;
 
 import com.application.eurder2.domain.User;
 import com.application.eurder2.enums.Permission;
 import com.application.eurder2.exception.ForbiddenException;
 import com.application.eurder2.exception.UnauthorizedException;
 import com.application.eurder2.repository.UserRepository;
+import com.application.eurder2.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

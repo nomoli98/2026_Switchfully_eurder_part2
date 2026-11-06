@@ -13,7 +13,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = StrongPasswordValidator.class)
 public @interface StrongPassword {
-    String message() default "   String message() default \"Password needs 8+ characters, a digit, an uppercase letter and a special character\";";
+    String message() default "Password needs 8+ characters, a digit, an uppercase letter and a special character";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

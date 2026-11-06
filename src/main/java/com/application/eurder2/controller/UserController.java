@@ -4,7 +4,7 @@ import com.application.eurder2.dtos.request.CreateUserRequest;
 import com.application.eurder2.dtos.request.RegisterUserRequest;
 import com.application.eurder2.dtos.response.UserResponse;
 import com.application.eurder2.enums.Permission;
-import com.application.eurder2.service.SecurityService;
+import com.application.eurder2.security.SecurityService;
 import com.application.eurder2.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
