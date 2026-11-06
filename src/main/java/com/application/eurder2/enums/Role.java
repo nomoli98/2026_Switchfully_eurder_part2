@@ -5,6 +5,7 @@ import java.util.Set;
 
 public enum Role {
     ADMIN(Permission.CREATE_USER,
+          Permission.VIEW_USERS,
           Permission.CREATE_ITEM,
           Permission.UPDATE_ITEM,
           Permission.CREATE_ORDER,

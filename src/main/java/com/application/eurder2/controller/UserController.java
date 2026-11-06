@@ -46,7 +46,7 @@ public class UserController {
             @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false)
             @Parameter(hidden = true) String authorization,
             @RequestParam(required = false) Role role,
-            @RequestParam(defaultValue = "lastName") String sortBy,
+            @RequestParam(defaultValue = "lastname") String sortBy,
             @RequestParam(defaultValue = "ASC") Sort.Direction direction,
             @RequestParam(defaultValue = "50") @Min(1) @Max(100) int limit) {
         securityService.validateAuthorization(authorization, Permission.VIEW_USERS);
@@ -64,7 +64,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @GetMapping(path = "{id}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public UserResponse getUserById(
             @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false)
             @Parameter(hidden = true) String authorization,
