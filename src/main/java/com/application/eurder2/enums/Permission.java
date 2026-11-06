@@ -8,6 +8,7 @@ public enum Permission {
     VIEW_ITEMS,
     CREATE_ORDER,
     VIEW_ORDERS,
+    REGISTER,
     VIEW_MY_ORDERS,
     VIEW_MY_REPORT
 }

@@ -9,7 +9,8 @@ public enum Role {
           Permission.UPDATE_ITEM,
           Permission.CREATE_ORDER,
           Permission.VIEW_MY_REPORT),
-    CUSTOMER(Permission.CREATE_ORDER,
+    CUSTOMER(Permission.REGISTER,
+             Permission.CREATE_ORDER,
              Permission.VIEW_MY_REPORT,
              Permission.VIEW_MY_ORDERS);
 
