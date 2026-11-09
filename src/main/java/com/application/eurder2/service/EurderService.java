@@ -4,9 +4,10 @@ import com.application.eurder2.domain.ItemGroup;
 import com.application.eurder2.domain.User;
 import com.application.eurder2.dtos.request.CreateEurderRequest;
 import com.application.eurder2.dtos.response.EurderResponse;
+import com.application.eurder2.dtos.response.report.ReportResponse;
 import com.application.eurder2.mapper.EurderMapper;
 import com.application.eurder2.repository.EurderRepository;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,5 +29,10 @@ public class EurderService {
                                         .map(itemGroupService::createItemGroup)
                                         .toList();
         return EurderMapper.toResponse(repository.save(EurderMapper.toEntity(groups, user)));
+    }
+
+    @Transactional(readOnly = true)
+    public ReportResponse getMyEurderReport(User user){
+        return EurderMapper.toReport(repository.getByUser(user));
     }
 }

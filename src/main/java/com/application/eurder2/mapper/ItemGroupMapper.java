@@ -4,6 +4,7 @@ package com.application.eurder2.mapper;
 import com.application.eurder2.domain.Item;
 import com.application.eurder2.domain.ItemGroup;
 import com.application.eurder2.dtos.response.ItemGroupResponse;
+import com.application.eurder2.dtos.response.report.ReportItemGroupResponse;
 
 public class ItemGroupMapper {
     public static ItemGroup toEntity(Item item, int amount) {
@@ -15,6 +16,12 @@ public class ItemGroupMapper {
                                      itemGroup.getAmount(),
                                      itemGroup.getGroupPrice(),
                                      itemGroup.getShippingDate());
+    }
+
+    public static ReportItemGroupResponse toReport(ItemGroup itemGroup){
+        return new ReportItemGroupResponse(itemGroup.getItemName(),
+                                           itemGroup.getAmount(),
+                                           itemGroup.getGroupPrice());
     }
 
 }

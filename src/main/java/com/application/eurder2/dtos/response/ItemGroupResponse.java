@@ -7,5 +7,4 @@ public record ItemGroupResponse(String itemName,
                                 int amount,
                                 double groupPrice,
                                 LocalDate shippingDate) {
-
 }

@@ -3,6 +3,7 @@ package com.application.eurder2.controller;
 import com.application.eurder2.domain.User;
 import com.application.eurder2.dtos.request.CreateEurderRequest;
 import com.application.eurder2.dtos.response.EurderResponse;
+import com.application.eurder2.dtos.response.report.ReportResponse;
 import com.application.eurder2.enums.Permission;
 import com.application.eurder2.security.SecurityService;
 import com.application.eurder2.service.EurderService;
@@ -32,5 +33,13 @@ public class EurderController {
             @Valid @RequestBody CreateEurderRequest request) {
         User user = securityService.validateAuthorization(authorization, Permission.CREATE_ORDER);
         return eurderService.createEurder(request, user);
+    }
+
+    @GetMapping(path = "my-report")
+    public ReportResponse getMyEurderReport(
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false)
+            @Parameter(hidden = true) String authorization){
+        User user = securityService.validateAuthorization(authorization, Permission.VIEW_MY_REPORT);
+        return eurderService.getMyEurderReport(user);
     }
 }
