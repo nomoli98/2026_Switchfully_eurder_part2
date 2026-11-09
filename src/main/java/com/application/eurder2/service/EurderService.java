@@ -33,6 +33,6 @@ public class EurderService {
 
     @Transactional(readOnly = true)
     public ReportResponse getMyEurderReport(User user){
-        return EurderMapper.toReport(repository.getByUser(user));
+        return EurderMapper.toReport(repository.findByUserOrderByOrderDateDesc(user));
     }
 }

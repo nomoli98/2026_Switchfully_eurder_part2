@@ -2,6 +2,7 @@ package com.application.eurder2.domain;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +23,18 @@ public class Eurder {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "fk_user_id")
     private User user;
+
+    @Column(name = "order_date", nullable = false)
+    private LocalDateTime orderDate;
+
+    @PrePersist
+    void onCreate() {
+        this.orderDate = LocalDateTime.now();
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
 
     public Eurder() {
     }
