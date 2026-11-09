@@ -3,6 +3,7 @@ package com.application.eurder2.mapper;
 
 import com.application.eurder2.domain.Item;
 import com.application.eurder2.domain.ItemGroup;
+import com.application.eurder2.dtos.request.CreateItemGroupRequest;
 import com.application.eurder2.dtos.response.ItemGroupResponse;
 import com.application.eurder2.dtos.response.report.ReportItemGroupResponse;
 
@@ -16,6 +17,11 @@ public class ItemGroupMapper {
                                      itemGroup.getAmount(),
                                      itemGroup.getGroupPrice(),
                                      itemGroup.getShippingDate());
+    }
+
+    public static CreateItemGroupRequest toRequest(ItemGroup itemGroup){
+        return new CreateItemGroupRequest(itemGroup.getItem().getId(),
+                                          itemGroup.getAmount());
     }
 
     public static ReportItemGroupResponse toReport(ItemGroup itemGroup){

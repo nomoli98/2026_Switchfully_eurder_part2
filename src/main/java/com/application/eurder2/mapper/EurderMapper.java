@@ -3,6 +3,7 @@ package com.application.eurder2.mapper;
 import com.application.eurder2.domain.Eurder;
 import com.application.eurder2.domain.ItemGroup;
 import com.application.eurder2.domain.User;
+import com.application.eurder2.dtos.request.CreateEurderRequest;
 import com.application.eurder2.dtos.response.EurderResponse;
 import com.application.eurder2.dtos.response.report.ReportEurderResponse;
 import com.application.eurder2.dtos.response.report.ReportResponse;
@@ -22,6 +23,10 @@ public class EurderMapper {
                                         .toList(),
                                   eurder.getTotalPrice(),
                                   eurder.getUser().getId());
+    }
+
+    public static CreateEurderRequest toCreateRequest(Eurder eurder){
+        return new CreateEurderRequest(eurder.getItemGroups().stream().map(ItemGroupMapper::toRequest).toList());
     }
 
     public static ReportResponse toReport(List<Eurder> eurders) {

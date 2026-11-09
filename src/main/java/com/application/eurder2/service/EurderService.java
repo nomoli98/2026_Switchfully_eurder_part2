@@ -1,16 +1,19 @@
 package com.application.eurder2.service;
 
+import com.application.eurder2.domain.Eurder;
 import com.application.eurder2.domain.ItemGroup;
 import com.application.eurder2.domain.User;
 import com.application.eurder2.dtos.request.CreateEurderRequest;
 import com.application.eurder2.dtos.response.EurderResponse;
 import com.application.eurder2.dtos.response.report.ReportResponse;
+import com.application.eurder2.exception.ExistenceException;
 import com.application.eurder2.mapper.EurderMapper;
 import com.application.eurder2.repository.EurderRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class EurderService {
@@ -34,5 +37,15 @@ public class EurderService {
     @Transactional(readOnly = true)
     public ReportResponse getMyEurderReport(User user){
         return EurderMapper.toReport(repository.findByUserOrderByOrderDateDesc(user));
+    }
+
+    @Transactional
+    public EurderResponse reeurderAnExistingEurder(User user, UUID eurderId) {
+        Eurder eurderToReeurder = repository.findByUserOrderByOrderDateDesc(user)
+                .stream()
+                .filter(eurder -> eurder.getId().equals(eurderId))
+                .findAny()
+                .orElseThrow(() -> ExistenceException.notInDatabase("eurder"));
+        return createEurder(EurderMapper.toCreateRequest(eurderToReeurder), user);
     }
 }
