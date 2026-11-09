@@ -4,15 +4,18 @@ import com.application.eurder2.dtos.request.CreateItemRequest;
 import com.application.eurder2.dtos.request.UpdateItemRequest;
 import com.application.eurder2.dtos.response.ItemResponse;
 import com.application.eurder2.enums.Permission;
+import com.application.eurder2.enums.StockIndicator;
 import com.application.eurder2.security.SecurityService;
 import com.application.eurder2.service.ItemService;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -45,5 +48,18 @@ public class ItemController {
             @PathVariable("id") UUID id) {
         securityService.validateAuthorization(authorization, Permission.UPDATE_ITEM);
         return itemService.updateItem(request, id);
+    }
+
+    @GetMapping(path = "stock/overview")
+    public List<ItemResponse> getItems(
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false)
+            @Parameter(hidden = true) String authorization,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) StockIndicator stockIndicator,
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction,
+            @RequestParam(required = false) Integer limit) {
+        securityService.validateAuthorization(authorization, Permission.VIEW_STOCK_OVERVIEW);
+
+        return itemService.findItems(name, stockIndicator, direction, limit);
     }
 }

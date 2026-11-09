@@ -13,6 +13,7 @@ import com.application.eurder2.repository.EurderRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,9 +48,10 @@ public class EurderService {
         return createEurder(EurderMapper.toCreateRequest(eurderToReeurder), user);
     }
 
-    @Transactional
-    public List<EurderShippingTodayResponse> getAllEurdersShippingToday(){
-        return EurderMapper.toListShippingTodayResponse(repository.findAllShippingToday());
+    @Transactional(readOnly = true)
+    public List<EurderShippingTodayResponse> getAllEurdersShippingToday() {
+        LocalDate today = LocalDate.now();
+        return EurderMapper.toListShippingTodayResponse(repository.findAllWithItemGroupShippingOn(today), today);
     }
 
 }

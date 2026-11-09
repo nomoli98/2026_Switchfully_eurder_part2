@@ -10,6 +10,7 @@ public enum Permission {
     VIEW_ORDERS,
     REGISTER,
     VIEW_MY_ORDERS,
-    VIEW_MY_REPORT
+    VIEW_MY_REPORT,
+    VIEW_STOCK_OVERVIEW
 }
 

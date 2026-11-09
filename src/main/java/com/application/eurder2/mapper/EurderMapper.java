@@ -9,6 +9,7 @@ import com.application.eurder2.dtos.response.report.ReportEurderResponse;
 import com.application.eurder2.dtos.response.report.ReportResponse;
 import com.application.eurder2.dtos.response.shippingToday.EurderShippingTodayResponse;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class EurderMapper {
@@ -47,21 +48,21 @@ public class EurderMapper {
         );
     }
 
-    private static EurderShippingTodayResponse toEurderShippingTodayResponse(Eurder eurder, User user) {
+    /** Keeps only the item groups shipping on the given date. */
+    private static EurderShippingTodayResponse toEurderShippingTodayResponse(Eurder eurder, LocalDate date) {
         return new EurderShippingTodayResponse(eurder.getItemGroups()
                                                      .stream()
+                                                     .filter(group -> date.equals(group.getShippingDate()))
                                                      .map(ItemGroupMapper::toItemGroupShippingToday)
                                                      .toList(),
-                                               AddressMapper.toResponse(user.getAddress()));
+                                               AddressMapper.toResponse(eurder.getUser().getAddress()));
     }
 
-    public static List<EurderShippingTodayResponse> toListShippingTodayResponse(List<Eurder> eurders){
-        return eurders.stream().map(e -> toEurderShippingTodayResponse(e, e.getUser())).toList();
+    public static List<EurderShippingTodayResponse> toListShippingTodayResponse(List<Eurder> eurders, LocalDate date) {
+        return eurders.stream().map(e -> toEurderShippingTodayResponse(e, date)).toList();
     }
 
     private static double getTotalPrice(List<Eurder> eurders) {
         return eurders.stream().mapToDouble(Eurder::getTotalPrice).sum();
     }
-
-
 }

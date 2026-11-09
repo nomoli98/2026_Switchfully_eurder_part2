@@ -5,8 +5,10 @@ import com.application.eurder2.domain.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,8 +27,8 @@ public interface EurderRepository extends JpaRepository<Eurder, UUID> {
         WHERE EXISTS (
             SELECT ig FROM ItemGroup ig
             WHERE ig.eurder = e
-              AND ig.shippingDate = CURRENT_DATE
+              AND ig.shippingDate = :date
         )
         """)
-    List<Eurder> findAllShippingToday();
+    List<Eurder> findAllWithItemGroupShippingOn(@Param("date") LocalDate date);
 }
