@@ -41,11 +41,8 @@ public class EurderService {
 
     @Transactional
     public EurderResponse reeurderAnExistingEurder(UUID eurderId, User user) {
-        Eurder eurderToReeurder = repository.findByUserOrderByOrderDateDesc(user)
-                .stream()
-                .filter(eurder -> eurder.getId().equals(eurderId))
-                .findAny()
-                .orElseThrow(() -> ExistenceException.notInDatabase("eurder"));
+        Eurder eurderToReeurder = repository.findByIdAndUser(eurderId, user)
+                                            .orElseThrow(() -> ExistenceException.notInDatabase("eurder"));
         return createEurder(EurderMapper.toCreateRequest(eurderToReeurder), user);
     }
 }

@@ -46,6 +46,7 @@ public class EurderController {
     }
 
     @PostMapping(path = "re-eurder/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
     public EurderResponse reEurder(
             @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false)
             @Parameter(hidden = true) String authorization, @PathVariable("id")
