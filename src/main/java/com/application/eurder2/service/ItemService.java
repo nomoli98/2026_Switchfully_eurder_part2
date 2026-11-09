@@ -6,10 +6,10 @@ import com.application.eurder2.dtos.request.UpdateItemRequest;
 import com.application.eurder2.dtos.response.ItemResponse;
 import com.application.eurder2.exception.ExistenceException;
 import com.application.eurder2.mapper.ItemMapper;
-import com.application.eurder2.repository.ItemGroupRepository;
 import com.application.eurder2.repository.ItemRepository;
-import org.flywaydb.core.internal.util.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -29,13 +29,14 @@ public class ItemService {
                          .orElseThrow(() -> ExistenceException.notInDatabase("item"));
     }
 
+    @Transactional
     public ItemResponse updateItem(UpdateItemRequest request, UUID itemId) {
         Item item = getItemById(itemId);
         updateIfHasText(request.name(), item::setName);
         updateIfHasText(request.description(), item::setDescription);
         updateIfPresent(request.price(), item::setPrice);
         updateIfPresent(request.stock(), item::setStock);
-        return ItemMapper.toResponse(repository.updateOrInsert(item));
+        return ItemMapper.toResponse(repository.save(item));
     }
 
     private static <T> void updateIfPresent(T value, Consumer<T> setter) {

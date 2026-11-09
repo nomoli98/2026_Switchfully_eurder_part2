@@ -36,7 +36,7 @@ public class ItemController {
         return itemService.createItem(request);
     }
 
-    @PutMapping(path = "update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ItemResponse updateItem(
             @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false)
