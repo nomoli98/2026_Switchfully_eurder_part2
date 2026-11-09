@@ -42,7 +42,7 @@ public class ItemController {
             @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false)
             @Parameter(hidden = true) String authorization,
             @Valid @RequestBody UpdateItemRequest request,
-            @PathVariable UUID id) {
+            @PathVariable("id") UUID id) {
         securityService.validateAuthorization(authorization, Permission.UPDATE_ITEM);
         return itemService.updateItem(request, id);
     }

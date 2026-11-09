@@ -40,7 +40,7 @@ public class EurderService {
     }
 
     @Transactional
-    public EurderResponse reeurderAnExistingEurder(User user, UUID eurderId) {
+    public EurderResponse reeurderAnExistingEurder(UUID eurderId, User user) {
         Eurder eurderToReeurder = repository.findByUserOrderByOrderDateDesc(user)
                 .stream()
                 .filter(eurder -> eurder.getId().equals(eurderId))

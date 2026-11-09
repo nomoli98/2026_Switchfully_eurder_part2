@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(path = "/eurders")
 public class EurderController {
@@ -38,8 +40,17 @@ public class EurderController {
     @GetMapping(path = "my-report")
     public ReportResponse getMyEurderReport(
             @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false)
-            @Parameter(hidden = true) String authorization){
+            @Parameter(hidden = true) String authorization) {
         User user = securityService.validateAuthorization(authorization, Permission.VIEW_MY_REPORT);
         return eurderService.getMyEurderReport(user);
+    }
+
+    @PostMapping(path = "re-eurder/{id}")
+    public EurderResponse reEurder(
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false)
+            @Parameter(hidden = true) String authorization, @PathVariable("id")
+            UUID eurderId){
+        User user = securityService.validateAuthorization(authorization, Permission.CREATE_ORDER);
+        return eurderService.reeurderAnExistingEurder(eurderId, user);
     }
 }
