@@ -7,10 +7,12 @@ import com.application.eurder2.dtos.request.CreateEurderRequest;
 import com.application.eurder2.dtos.response.EurderResponse;
 import com.application.eurder2.dtos.response.report.ReportEurderResponse;
 import com.application.eurder2.dtos.response.report.ReportResponse;
+import com.application.eurder2.dtos.response.shippingToday.EurderShippingTodayResponse;
 
 import java.util.List;
 
 public class EurderMapper {
+
     public static Eurder toEntity(List<ItemGroup> items, User user) {
         return new Eurder(items, user);
     }
@@ -25,8 +27,11 @@ public class EurderMapper {
                                   eurder.getUser().getId());
     }
 
-    public static CreateEurderRequest toCreateRequest(Eurder eurder){
-        return new CreateEurderRequest(eurder.getItemGroups().stream().map(ItemGroupMapper::toRequest).toList());
+    public static CreateEurderRequest toCreateRequest(Eurder eurder) {
+        return new CreateEurderRequest(eurder.getItemGroups()
+                                             .stream()
+                                             .map(ItemGroupMapper::toRequest)
+                                             .toList());
     }
 
     public static ReportResponse toReport(List<Eurder> eurders) {
@@ -42,7 +47,21 @@ public class EurderMapper {
         );
     }
 
+    private static EurderShippingTodayResponse toEurderShippingTodayResponse(Eurder eurder, User user) {
+        return new EurderShippingTodayResponse(eurder.getItemGroups()
+                                                     .stream()
+                                                     .map(ItemGroupMapper::toItemGroupShippingToday)
+                                                     .toList(),
+                                               AddressMapper.toResponse(user.getAddress()));
+    }
+
+    public static List<EurderShippingTodayResponse> toListShippingTodayResponse(List<Eurder> eurders){
+        return eurders.stream().map(e -> toEurderShippingTodayResponse(e, e.getUser())).toList();
+    }
+
     private static double getTotalPrice(List<Eurder> eurders) {
         return eurders.stream().mapToDouble(Eurder::getTotalPrice).sum();
     }
+
+
 }

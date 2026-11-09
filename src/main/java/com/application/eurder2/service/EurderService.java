@@ -6,6 +6,7 @@ import com.application.eurder2.domain.User;
 import com.application.eurder2.dtos.request.CreateEurderRequest;
 import com.application.eurder2.dtos.response.EurderResponse;
 import com.application.eurder2.dtos.response.report.ReportResponse;
+import com.application.eurder2.dtos.response.shippingToday.EurderShippingTodayResponse;
 import com.application.eurder2.exception.ExistenceException;
 import com.application.eurder2.mapper.EurderMapper;
 import com.application.eurder2.repository.EurderRepository;
@@ -45,4 +46,10 @@ public class EurderService {
                                             .orElseThrow(() -> ExistenceException.notInDatabase("eurder"));
         return createEurder(EurderMapper.toCreateRequest(eurderToReeurder), user);
     }
+
+    @Transactional
+    public List<EurderShippingTodayResponse> getAllEurdersShippingToday(){
+        return EurderMapper.toListShippingTodayResponse(repository.findAllShippingToday());
+    }
+
 }

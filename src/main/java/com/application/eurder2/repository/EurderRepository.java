@@ -4,6 +4,7 @@ import com.application.eurder2.domain.Eurder;
 import com.application.eurder2.domain.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,4 +18,15 @@ public interface EurderRepository extends JpaRepository<Eurder, UUID> {
 
     @EntityGraph(attributePaths = {"itemGroups", "itemGroups.item"})
     Optional<Eurder> findByIdAndUser(UUID id, User user);
+
+    @EntityGraph(attributePaths = {"user", "itemGroups", "itemGroups.item"})
+    @Query("""
+        SELECT e FROM Eurder e
+        WHERE EXISTS (
+            SELECT ig FROM ItemGroup ig
+            WHERE ig.eurder = e
+              AND ig.shippingDate = CURRENT_DATE
+        )
+        """)
+    List<Eurder> findAllShippingToday();
 }
