@@ -1,6 +1,7 @@
 package com.application.eurder2.controller;
 
 import com.application.eurder2.dtos.request.CreateItemRequest;
+import com.application.eurder2.dtos.request.UpdateItemRequest;
 import com.application.eurder2.dtos.response.ItemResponse;
 import com.application.eurder2.enums.Permission;
 import com.application.eurder2.security.SecurityService;
@@ -11,6 +12,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/items")
@@ -25,11 +28,22 @@ public class ItemController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ItemResponse createItem(@RequestHeader(value = HttpHeaders.AUTHORIZATION,
-                                                  required = false) @Parameter(hidden = true)
-                                   String authorization,
-                                   @Valid @RequestBody CreateItemRequest request) {
+    public ItemResponse createItem(
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false)
+            @Parameter(hidden = true) String authorization,
+            @Valid @RequestBody CreateItemRequest request) {
         securityService.validateAuthorization(authorization, Permission.CREATE_ITEM);
         return itemService.createItem(request);
+    }
+
+    @PutMapping(path = "update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ItemResponse updateItem(
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false)
+            @Parameter(hidden = true) String authorization,
+            @Valid @RequestBody UpdateItemRequest request,
+            @PathVariable UUID id) {
+        securityService.validateAuthorization(authorization, Permission.UPDATE_ITEM);
+        return itemService.updateItem(request, id);
     }
 }
